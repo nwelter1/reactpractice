@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import './app.css'
+export default class App extends Component {
+  constructor() {
+    console.log('Constructed')
+    super();
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    this.state = {
+      names: ['Derek', 'Joel', 'Biran', 'Nate'],
+      locations: [],
+      attendees: []
+    }
+  }
+  handleGetPartners = () => void
+
+  componentDidMount(){
+    console.log('Mounted')
+    this.setState({
+      locations: ['Washington', 'Dallas', 'Chicago']
+    });
+    
+    fetch('https://ct-flask-blog-api.herokuapp.com/')
+    .then(res => res.json())
+    .then(data => this.setState({ attendees:data.partners }))
+  }
+  render() {
+    console.log('rendered')
+    return (
+      <div>
+        <header>
+        <Navbar />
+        </header>
+        <main className="container">
+          <Switch>
+            <Route exact path='/' render={() => <Home />} />
+            <Route path='/about' render={() => <Contact />} />
+            <Route path='/contact' render={() => <About />} />
+          </Switch>
+          
+          <hr />
+          
+        </main>
+        <footer>
+
+        </footer>
+      </div>
+    )
+  }
 }
 
-export default App;
